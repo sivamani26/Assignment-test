@@ -7,16 +7,14 @@ const ItemList = () => {
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [isDropdownExpanded, setDropdownExpanded] = useState(false);
-
+  const [isValid, setIsValid] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
     fetch("https://dummyjson.com/products")
       .then((response) => response.json())
-      .then((data) => {
-        setData(data.products);
-      });
-  }, []);
+      .then((data) => setData(data.products));
+  },[]);
 
   useEffect(() => {
     const filteredItems = data.filter((item) =>
@@ -27,28 +25,21 @@ const ItemList = () => {
 
   useEffect(() => {
     document.addEventListener("click", handleDocumentClick);
-
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, []);
+  },[]);
 
   const handleSelect = (value) => {
     if (!selectedItems.includes(value)) {
       setSelectedItems([...selectedItems, value]);
       setSearch("");
+      setIsValid(true);
     }
   };
 
-  const handleInputClick = () => {
-    if (!isDropdownExpanded) {
-      setDropdownExpanded(true);
-    }
-  };
-
-  const handleDeselect = (value) => {
-    setSelectedItems(selectedItems.filter((item) => item !== value));
-  };
+  const handleInputClick = () =>
+    !isDropdownExpanded && setDropdownExpanded(true);
 
   const handleDocumentClick = (e) => {
     if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -57,9 +48,15 @@ const ItemList = () => {
     }
   };
 
+  const handleDeselect = (value) =>{
+  setSelectedItems(selectedItems.filter((item) => item !== value));
+  setIsValid(selectedItems.length - 1 > 0);
+  }
+
   const handleClearAll = () => {
     setSelectedItems([]);
-  };
+    setIsValid(false);
+  }
 
   const handleSubmit = () => {
     if (selectedItems.length === 0) {
@@ -72,11 +69,9 @@ const ItemList = () => {
   return (
     <div className="container" ref={containerRef}>
       <div className="item_container">
-        {/* items that user selected */}
-
         {selectedItems.map((item) => (
           <span key={item} className="selected-item">
-            {item}{" "}
+            {item}
             <a
               href="/"
               onClick={(e) => {
@@ -89,8 +84,6 @@ const ItemList = () => {
           </span>
         ))}
 
-        {/* Search input field */}
-
         <input
           type="text"
           placeholder="Enter Products..."
@@ -98,8 +91,6 @@ const ItemList = () => {
           onClick={handleInputClick}
           onChange={(e) => setSearch(e.target.value)}
         />
-
-        {/* to handle clear all button */}
 
         {selectedItems.length > 0 && (
           <span className="Clear_all" onClick={handleClearAll}>
@@ -115,29 +106,23 @@ const ItemList = () => {
         )}
       </div>
 
-      {/*List of Items */}
-
       {isDropdownExpanded && (
         <div className="dropdown">
-          <select multiple onChange={(e) => handleSelect(e.target.value)}>
+          <select multiple   onChange={(e) => handleSelect(e.target.value)}>
             {filteredData.map((item) => (
-              <option key={item.id} value={item.title}>
+              <option key={item.id} >
                 {item.title}
               </option>
             ))}
           </select>
         </div>
       )}
-  
-    {/* Conditionally rendering the submit button */}
 
       <button
         onClick={handleSubmit}
-        disabled={selectedItems.length <= 0}
-        className={
-          selectedItems.length <= 0 ? "disabled-button" : "submit-button"
-        }
-      >
+        disabled={!isValid}
+        className={!isValid ? "disabled-button" : "submit-button"}
+      > 
         Submit
       </button>
     </div>

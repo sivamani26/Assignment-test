@@ -83,3 +83,21 @@
   border: 1px solid #ccc;
   background-color: gray;
 }
+
+
+@media (max-width: 768px) {
+  .item_container {
+    width: 90%;
+    left: 5%;
+  }
+
+  .dropdown select {
+    width: 90%;
+  }
+
+  .submit-button,
+  .disabled-button {
+    width: 90%;
+    height:100px; 
+  }
+}
