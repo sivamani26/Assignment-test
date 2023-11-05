@@ -1,0 +1,85 @@
+.container {
+  width: 100%;
+  margin: 0;
+}
+
+.item_container {
+  border: 2px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 47vw;
+  position: relative;
+  list-style: none;
+  flex-flow: row wrap;
+  left: 24%
+}
+
+.item_container .selected-item {
+  padding: 6px;
+  margin: 5px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #458f7e;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+}
+
+.selected-item img {
+  width: 15px;
+  margin-left: 5px;
+}
+
+.item_container input {
+  flex: 1;
+  font-size: 16px;
+  padding: 5px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+
+
+.item_container .Clear_all {
+  float: left;
+}
+
+.dropdown select {
+  outline: none;
+  width: 48vw;
+  height: 150px;
+  border: 2px solid #ccc;
+  border-top: none;
+}
+
+.dropdown option {
+  border-bottom: 0.2px solid #ebebeb;
+  padding: 10px
+}
+
+.dropdown option:hover {
+  background-color: #f2f2f2;
+}
+
+.submit-button {
+  margin: 20px;
+  width: 20vw;
+  height: 10vh;
+  color: white;
+  background-color: rgb(0, 187, 28);
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+.disabled-button {
+  margin: 20px;
+  width: 20vw;
+  height: 10vh;
+  color: white;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background-color: gray;
+}
